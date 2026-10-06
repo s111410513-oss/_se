@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>金門大學 校務資訊系統 | 登入</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-body">
+  <div class="login-card">
+    <div class="login-head">
+      <div class="logo">國金</div>
+      <h1>校務資訊系統</h1>
+      <p>National Quemoy University</p>
+    </div>
+    <div class="login-body-pad">
+      <div class="error-msg" id="errorMsg"></div>
+      <form id="loginForm" autocomplete="off">
+        <div class="field">
+          <label for="username">帳號 / 學號</label>
+          <input type="text" id="username" placeholder="請輸入帳號" required>
+        </div>
+        <div class="field">
+          <label for="password">密碼</label>
+          <input type="password" id="password" placeholder="請輸入密碼" required>
+        </div>
+        <button type="submit" class="login-btn">登 入</button>
+      </form>
+      <div class="login-tip">示範帳號（點擊快速填入）</div>
+      <div class="account-quick">
+        <button data-user="student1" data-pwd="student123">學生</button>
+        <button data-user="teacher1" data-pwd="teacher123">教師</button>
+        <button data-user="admin" data-pwd="admin123">管理員</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById('loginForm');
+      var err = document.getElementById('errorMsg');
+
+      function showErr(msg) {
+        err.textContent = msg;
+        err.style.display = 'block';
+      }
+      function hideErr() { err.style.display = 'none'; }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var un = document.getElementById('username').value.trim();
+        var pw = document.getElementById('password').value.trim();
+        hideErr();
+        if (!un || !pw) { showErr('請輸入帳號與密碼'); return; }
+        var res = Auth.login(un, pw);
+        if (!res.ok) { showErr(res.msg); return; }
+        window.location.href = 'dashboard.html';
+      });
+
+      document.querySelectorAll('.account-quick button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          document.getElementById('username').value = btn.dataset.user;
+          document.getElementById('password').value = btn.dataset.pwd;
+          hideErr();
+        });
+      });
+
+      // 若已登入直接進入系統
+      if (Auth.current()) window.location.href = 'dashboard.html';
+    })();
+  </script>
+</body>
+</html>

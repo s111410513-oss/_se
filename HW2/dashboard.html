@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>金門大學 校務資訊系統</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">國金</div>
+      <div>
+        <div class="t1">金門大學 校務資訊系統</div>
+        <div class="t2">National Quemoy University</div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="semester" id="semesterLabel"></div>
+    <div class="realtime" id="realtime"></div>
+    <div class="user-chip">
+      <div class="avatar" id="userAvatar"></div>
+      <div>
+        <div class="uname" id="userName"></div>
+        <div class="urole" id="userRole"></div>
+      </div>
+    </div>
+    <button class="logout-btn" id="logoutBtn">登出</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <!-- 首頁 -->
+      <section id="view-home" class="view"></section>
+
+      <!-- 校務公告 -->
+      <section id="view-news" class="view hidden"></section>
+
+      <!-- 選課系統 -->
+      <section id="view-courses" class="view hidden"></section>
+
+      <!-- 課表管理 -->
+      <section id="view-schedule" class="view hidden"></section>
+
+      <!-- 成績查詢 -->
+      <section id="view-grades" class="view hidden"></section>
+
+      <!-- 教務/學務行政 -->
+      <section id="view-affairs" class="view hidden"></section>
+
+      <!-- 帳號管理 -->
+      <section id="view-account" class="view hidden"></section>
+    </main>
+  </div>
+
+  <div id="modalRoot"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
