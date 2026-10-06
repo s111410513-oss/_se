@@ -1,0 +1,1 @@
+"""Test suite for curl-lite (stdlib unittest, no external dependencies)."""
