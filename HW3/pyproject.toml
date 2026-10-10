@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "expense-tracker"
+version = "1.0.0"
+description = "A dependency-free CLI to track income/expenses, analyse spending by category and month, and manage budgets."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "expense-tracker" }]
+keywords = ["finance", "budget", "cli", "expenses", "sqlite"]
+
+[project.scripts]
+expense = "expense_tracker.cli:main"
+
+[tool.setuptools]
+packages = ["expense_tracker"]
