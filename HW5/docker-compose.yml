@@ -1,0 +1,81 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: se_hw5_postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - se_hw5_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  node-api:
+    build:
+      context: ./node-api
+    container_name: se_hw5_node_api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      PORT: 3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - se_hw5_net
+
+  rust-api:
+    build:
+      context: ./rust-api
+    container_name: se_hw5_rust_api
+    restart: unless-stopped
+    environment:
+      PORT: 8081
+    networks:
+      - se_hw5_net
+
+  python-api:
+    build:
+      context: ./python-api
+    container_name: se_hw5_python_api
+    restart: unless-stopped
+    environment:
+      PORT: 5000
+    networks:
+      - se_hw5_net
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: se_hw5_nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
+    depends_on:
+      - node-api
+      - rust-api
+      - python-api
+    networks:
+      - se_hw5_net
+
+volumes:
+  pg_data:
+
+networks:
+  se_hw5_net:
+    driver: bridge

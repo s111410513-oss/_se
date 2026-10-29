@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HW5 - Docker 微服務系統展示</title>
+    <style>
+        :root {
+            --bg: #0f1026;
+            --card: #1d1f33;
+            --accent: #4f9deb;
+            --ok: #3fb984;
+            --text: #f4f4f9;
+            --sub: #bfc0c0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", "Noto Sans TC", sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #24263d, var(--bg));
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+        }
+
+        header h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--sub);
+        }
+
+        main {
+            display: grid;
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: linear-gradient(180deg, rgba(79, 157, 235, 0.18) 0%, rgba(29, 31, 51, 1) 100%);
+            border: 1px solid rgba(79, 157, 235, 0.4);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 40px 60px -40px rgba(79, 157, 235, 0.8);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 1.6rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.4rem;
+        }
+
+        .card-body {
+            display: grid;
+            gap: 0.8rem;
+            padding: 0 1.6rem 1.6rem;
+            color: var(--sub);
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(63, 185, 132, 0.25);
+            color: var(--ok);
+            font-size: 0.9rem;
+        }
+
+        .list {
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            background: rgba(15, 16, 38, 0.8);
+        }
+
+        .code {
+            font-family: "Cascadia Code", monospace;
+            color: var(--accent);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 0.9rem 1.2rem;
+        }
+
+        thead {
+            background: rgba(79, 157, 235, 0.25);
+        }
+
+        tbody tr {
+            background: rgba(15, 16, 38, 0.8);
+            border-top: 1px solid rgba(191, 192, 192, 0.12);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--sub);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>HW5 - Docker 微服務系統</h1>
+        <p>Nginx × PostgreSQL × Node.js × Rust × Python | 學習 Docker 並建置微服務架構</p>
+    </header>
+    <main>
+        <section class="card">
+            <div class="card-header">
+                <h2>系統架構概覽</h2>
+                <span class="pill">All services up via docker compose</span>
+            </div>
+            <div class="card-body">
+                <p>所有服務運行於同一個 Docker Network，由 Nginx 作為唯一對外入口，並以 Reverse Proxy 將請求轉發至各微服務。</p>
+                <div class="grid">
+                    <article class="list-item">
+                        <div>
+                            <strong>nginx</strong>
+                            <div class="code">:80 / web server, reverse proxy</div>
+                        </div>
+                        <span>入口</span>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>postgres</strong>
+                            <div class="code">:5432 / relational database</div>
+                        </div>
+                        <span>持久化</span>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>node-api</strong>
+                            <div class="code">/api/node/ / Node.js + Express</div>
+                        </div>
+                        <span>微服務</span>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>rust-api</strong>
+                            <div class="code">/api/rust/ / Rust + Actix Web</div>
+                        </div>
+                        <span>微服務</span>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>python-api</strong>
+                            <div class="code">/api/python/ / Python + Flask</div>
+                        </div>
+                        <span>微服務</span>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>web</strong>
+                            <div class="code">/ / 靜態展示介面</div>
+                        </div>
+                        <span>前端</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <h2>Docker 學習重點紀錄</h2>
+            </div>
+            <div class="card-body">
+                <div class="grid">
+                    <article class="list-item">
+                        <div>
+                            <strong>Image &amp; Container</strong>
+                            <div>使用 Dockerfile 建置 Image，並以其建立隔離的 Container</div>
+                        </div>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>docker-compose</strong>
+                            <div>統一定義多個服務、網路、資料卷，一鍵啟動整個系統</div>
+                        </div>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>Multi-stage / 環境建置</strong>
+                            <div>針對 Node.js、Rust、Python 分別撰寫對應的 Dockerfile</div>
+                        </div>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>Network &amp; DNS</strong>
+                            <div>透過 Service Name（如 postgres、node-api）在內部網路互相溝通</div>
+                        </div>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>Volume</strong>
+                            <div>使用 pg_data 保存 PostgreSQL 資料，實現持久化</div>
+                        </div>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>Reverse Proxy</strong>
+                            <div>以 Nginx 統一路由，達成微服務入口集中管理</div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <h2>即時 API 狀態測試</h2>
+                <span class="pill">透過前端呼叫各微服務</span>
+            </div>
+            <div class="card-body">
+                <div class="grid">
+                    <article class="list-item">
+                        <div>
+                            <strong>Node.js API</strong>
+                            <div class="code">GET /api/node/health</div>
+                        </div>
+                        <span id="node-status">測試中...</span>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>Rust API</strong>
+                            <div class="code">GET /api/rust/health</div>
+                        </div>
+                        <span id="rust-status">測試中...</span>
+                    </article>
+                    <article class="list-item">
+                        <div>
+                            <strong>Python API</strong>
+                            <div class="code">GET /api/python/health</div>
+                        </div>
+                        <span id="python-status">測試中...</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <h2>PostgreSQL 資料展示（來自 node-api）</h2>
+                <span class="pill">資料表：services</span>
+            </div>
+            <div class="card-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>服務名稱</th>
+                            <th>類型</th>
+                            <th>描述</th>
+                            <th>Port</th>
+                        </tr>
+                    </thead>
+                    <tbody id="services-body">
+                        <tr>
+                            <td colspan="5">載入中...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>HW5 | Docker Microservices Demo | Built for learning purposes</p>
+    </footer>
+    <script>
+        async function check(url, elId) {
+            const el = document.getElementById(elId);
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                el.textContent = `OK - ${data.service || "ready"}`;
+                el.style.color = "var(--ok)";
+            } catch (err) {
+                el.textContent = "連線失敗";
+                el.style.color = "#f25c54";
+            }
+        }
+
+        async function loadServices() {
+            const tbody = document.getElementById("services-body");
+            try {
+                const res = await fetch("/api/node/services");
+                const data = await res.json();
+                tbody.innerHTML = "";
+                data.services.forEach((s) => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `<td>${s.id}</td><td>${s.name}</td><td>${s.type}</td><td>${s.description}</td><td>${s.port}</td>`;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                tbody.innerHTML = '<tr><td colspan="5">無法從 Node API 取得資料</td></tr>';
+            }
+        }
+
+        check("/api/node/health", "node-status");
+        check("/api/rust/health", "rust-status");
+        check("/api/python/health", "python-status");
+        loadServices();
+    </script>
+</body>
+
+</html>
