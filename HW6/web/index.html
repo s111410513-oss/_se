@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="簡單、清楚的待辦事項管理工具" />
+  <title>日常清單｜Task Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="日常清單首頁"><span class="brand-mark">✓</span><span>little<span class="brand-light">list</span></span></a>
+      <span class="top-note">MAKE TODAY COUNT <span class="tiny-dot"></span></span>
+    </header>
+    <main class="main-layout">
+      <section class="intro">
+        <p class="eyebrow">YOUR PERSONAL SPACE</p>
+        <h1>把想做的事，<br><span>一件一件完成。</span></h1>
+        <p class="intro-copy">不用一次做到完美，只要開始就很好。</p>
+        <div class="date-chip"><span class="date-icon">✳</span><span id="today-date">今天也要好好生活</span></div>
+      </section>
+      <section class="task-panel" aria-label="待辦事項清單">
+        <div class="panel-heading">
+          <div><p class="eyebrow">MY TASKS</p><h2>今日清單</h2></div>
+          <div class="progress-ring" aria-label="完成進度"><span id="progress-number">0%</span></div>
+        </div>
+        <form id="task-form" class="add-form">
+          <label class="sr-only" for="task-input">新增待辦事項</label>
+          <input id="task-input" name="title" type="text" maxlength="80" placeholder="接下來想完成什麼？" autocomplete="off" required />
+          <button type="submit" class="add-button" aria-label="新增待辦事項"><span>＋</span> 新增</button>
+        </form>
+        <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+        <div class="list-toolbar">
+          <div class="filters" role="group" aria-label="篩選待辦事項">
+            <button class="filter-button active" data-filter="all" type="button">全部 <span id="all-count">0</span></button>
+            <button class="filter-button" data-filter="active" type="button">未完成</button>
+            <button class="filter-button" data-filter="completed" type="button">已完成</button>
+          </div>
+          <span class="task-total" id="task-total">0 個項目</span>
+        </div>
+        <ul id="task-list" class="task-list" aria-live="polite"></ul>
+        <div id="empty-state" class="empty-state">
+          <div class="empty-illustration">✦</div>
+          <p class="empty-title">清單還空空的</p>
+          <p>新增一件小事，讓今天開始前進。</p>
+        </div>
+        <footer class="panel-footer"><span>✿</span> SMALL STEPS, BIG CHANGES.</footer>
+      </section>
+    </main>
+    <footer class="site-footer">MADE FOR A BETTER EVERYDAY <span>·</span> HW6 WEB TESTING PROJECT</footer>
+  </div>
+</body>
+</html>
